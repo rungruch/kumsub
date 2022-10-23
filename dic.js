@@ -33,6 +33,7 @@ let bookmark_en = document.getElementById("bookmark_en");
 let bookmark_title = document.getElementById("bookmark_title");
 let bm_title_word_th = document.getElementById("bm_title_word_th");
 let bm_title_word_en = document.getElementById("bm_title_word_en");
+let list = document.getElementById("list");
 // resultBtn2.addEventListener("click", giveResultsOfWord2);
 // function giveResultsOfWord2(e) {
 //   //after searching for once it shows the previous searched values so first clear them everytime
@@ -104,7 +105,7 @@ function getData2(wordTyped) {
             showLoadingSpinner.style.display = "none";
         //    console.log(ressuts[c]);
             let tmp2 = outputData.innerHTML;
-            outputData.innerHTML = tmp2+'<br><br>'+ressuts[c];
+            outputData.innerHTML = tmp2+'<br>'+ressuts[c];
             outbool++;
           }
          }
@@ -472,5 +473,14 @@ array_engword.forEach((suggestions) => {
 });
 }
 
+}
+
+var english = /^[a-z][a-z]*$/i;
+function lancheck(){
+  let tmp = inputData.value; 
+  if(english.test(tmp.charAt(0))){
+    list.value = '1';
+  }else{list.value='2';}
+  
 }
 

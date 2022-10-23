@@ -34,7 +34,7 @@
     font-weight: bold;
   }
   body {
-    padding-top: 100px;
+
     background-color: rgb(59, 44, 24);
   
   }
@@ -47,10 +47,10 @@
     position: fixed;
     left: 0;
     right: 0;
-    top: 98px;
+    top: 70px;
     bottom: 0;
     z-index: -1;
- display: none;
+    display: none;
   }
 
 
@@ -65,7 +65,7 @@
   }
   #title_word{
     font-family: 'THSarabunNew-Bold';
-    font-size: 85px;
+    font-size: 75px;
   }
   #main_title {
     display: flex;
@@ -114,17 +114,18 @@
   #list{
     float:right;
     font-family: 'NotoColorEmoji','THSarabunNew-Bold';
-    padding: 15px 50px;
+    padding: 10px 20px;
     box-sizing: border-box;
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 6px;
+    border-radius: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    font-size: 25px;
+    font-size: 20px;
     margin-left: 5%;
     margin-right: 15%;
+   
   }
   .options{
     font-family: 'NotoColorEmoji','THSarabunNew-Bold';
@@ -174,7 +175,7 @@
     color: #fff;
     text-align: center;
     font-weight: bold;
-    font-size: 3em;
+    font-size: 2em;
   }
 
 
@@ -195,12 +196,12 @@
   
   .input-wrap {
     
-    width: 700px;
-    height: 70px;
+    width: 500px;
+    height: 55px;
     background: rgba(255, 255, 255, 0.9);
     display: flex;
     border-radius: 60px;
-    padding: 10px 20px;
+    padding: 10px 15px;
     backdrop-filter: blur(4px) saturate(180%);
   }
   .input-wrap input0{
@@ -218,8 +219,8 @@
     flex: 1;
     border: 0;
     padding: 24px 20px;
-    font-size: 30px;
-    padding-top: 3%;
+    font-size: 25px;
+    padding-top: 3.75%;
     color: #2a2a2a;
     
   }
@@ -227,7 +228,7 @@
     color: #cac7ca;
   }
   .input-wrap button img{
-    width: 35px;
+    width: 23px;
     
   }
   .input-wrap button{
@@ -235,12 +236,12 @@
     border-radius: 50%;
     cursor: pointer;
     background:  rgba(150, 87, 68, 0.958);
-    padding: 0 10px;
+    padding: 0 7px;
   }
   input {
     border-radius: 13px;
     padding: 10px;
-    font-size: 1.14rem;
+    font-size:1rem;
     min-width: 400px;
     font-weight: 500;
     outline: none;
@@ -252,10 +253,10 @@
   }
   
   section.output {
-    max-width: 70%;
-    height: 70%;
+    max-width: 50%;
+    height: 50%;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 120px;
     text-align: left;
     background: rgba(232, 232, 232, 0.98);
     border: none;
@@ -307,13 +308,15 @@
     }
   }
   #background-video {
+    filter: blur(0.9px);
+    transform: scale(1.1);
     width: 100vw;
     height: 100vh;
     object-fit: cover;
     position: fixed;
     left: 0;
     right: 0;
-    top: 98px;
+    top: 70px;
     bottom: 0;
     z-index: -1;
     background-color: rgb(62, 47, 26);
@@ -506,19 +509,21 @@
 
 
   #history img{
-    width: 50px;
+  
+    width: 40px;
     
   }
  #history {
+  
   border: 0;
   border-radius: 50%;
   cursor: pointer;
-  background:  rgba(0, 0, 0, 0.9);
+  background:  rgba(2, 2, 2, 0.4);
   padding: 0 1px;
   padding-right: 3px;
   }
   #history_btn{
-    padding-right: 20px;
+    padding-right: 35px;
   }
 
   #showpicture{
