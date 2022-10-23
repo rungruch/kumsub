@@ -1,5 +1,4 @@
 
-
 //our input tag
 let inputData = document.getElementById("inputSearch");
 //where the output get appears
@@ -122,7 +121,7 @@ function getData2(wordTyped) {
      line.style.display = "block";
      giveSoundth(wordTyped);
      //saveword_button_th.style.display = "block";
-     showimage(wordTyped);
+     showimage2(wordTyped);
      saveword_th();
 
           
@@ -246,6 +245,12 @@ function getData(wordTyped) {
   xhr.send();
 }
 
+function getPhotos(images) {
+   images.map(image => {
+    imageapi.innerHTML=`<img src="${image.src.tiny}" class="outputimage">`
+   })
+}
+
 function showimage(wordTyped)
 {
   const xhr= new XMLHttpRequest();
@@ -254,14 +259,37 @@ function showimage(wordTyped)
   {
     let iMage=this.responseText;
     iMage=JSON.parse(iMage);
-    let imageshow =iMage.results[0].urls.raw;
-    console.log(iMage.results[0]);
-    imageapi.innerHTML=`<img src="${imageshow}" class="outputimage">`
+    if(iMage.results.length == 0){
+      alert("No image to show on display!!!");
+    } else {
+      let imageshow = iMage.results[0].urls.raw;
+      console.log(iMage.results[0]);
+      imageapi.innerHTML=`<img src="${imageshow}" class="outputimage" >`
+    }
+
+    
   }
   xhr.send();
 
 }
 
+function showimage2(wordTyped)
+{
+  
+  fetch(`https://api.pexels.com/v1/search?query=${wordTyped}&locale=th-TH`,{
+  headers: {
+    Authorization: "563492ad6f91700001000001176416596be647ddbf9cfa76f8eb44a9"
+  }
+})
+   .then(resp => {
+    return resp.json()
+   })
+   .then(data => {
+    console.log(data.photos);
+    getPhotos(data.photos);
+   })
+   
+}
 
 function playsound_eng() { 
   var playbutton_eng = document.getElementById("engaudio"); 
