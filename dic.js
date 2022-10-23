@@ -247,7 +247,7 @@ function getData(wordTyped) {
 
 function getPhotos(images) {
    images.map(image => {
-    imageapi.innerHTML=`<img src="${image.src.tiny}" class="outputimage">`
+    imageapi.innerHTML=`<br><br><img src="${image.src.tiny}" class="outputimage">`
    })
 }
 
@@ -264,7 +264,7 @@ function showimage(wordTyped)
     } else {
       let imageshow = iMage.results[0].urls.raw;
       console.log(iMage.results[0]);
-      imageapi.innerHTML=`<img src="${imageshow}" class="outputimage" >`
+      imageapi.innerHTML=`<br><br><img src="${imageshow}" class="outputimage" >`
     }
 
     
