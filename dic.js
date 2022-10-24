@@ -114,7 +114,8 @@ function getData2(wordTyped) {
 
        if (outbool == 0){
         //หาคำไกล้เคียง case (sprint อื่น)
-        title_word.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong>`;
+        showLoadingSpinner.style.display = "none";
+        outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong>`;
         return;
      }
     foreground.style.display= "block";
@@ -324,95 +325,50 @@ class='audio' style='font-size:30px'; type="button" value="Play"><img src="/reso
 }
 
 
-function setCookie(cname, cvalue) {
-  document.cookie = cname + "=" + cvalue+ ";path=/";
-}
-
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
-
 
 //saveword_button_th.addEventListener("click", saveword_th);
 function saveword_th() {
-  //alert(getCookie("thaiword"));
-  //setCookie("thaiword",title_word.innerHTML);
-  //alert(getCookie("thaiword"));
- // alert(getCookie("thaiword"));
+  let thaiword = localStorage.getItem("thaiword");
+  if (thaiword === null) {//firstword
+    localStorage.setItem("thaiword", title_word.innerHTML);
+  } else {
+   const array_thaiword = thaiword.split("|");
+   for(var word in array_thaiword){
+     if (array_thaiword[word] === title_word.innerHTML){
+       return;
+      }
+ } 
+     let tmpstorage = thaiword +"|"+title_word.innerHTML;
+     localStorage.setItem("thaiword", tmpstorage);
 
-  let thaiword = getCookie("thaiword");
-  if (thaiword != "") {
-  
-    const array_thaiword = thaiword.split("|");
-
-    for(var word in array_thaiword){
-      if (array_thaiword[word] === title_word.innerHTML){
-        return;
-       }
-  } 
-      let tmpcookie = thaiword +"|"+title_word.innerHTML;
-      setCookie("thaiword",tmpcookie);
-    
-  } else {//firstword
-   // let tmpcookie = title_word.innerHTML;
-   // thaiword = prompt("Please enter your name:", "");
-   // if (thaiword != "" && thaiword != null) {  setCookie("thaiword", thaiword); }
-  // alert("first="+getCookie("thaiword"));  
-   setCookie("thaiword", title_word.innerHTML);
   }
-
-  
- // alert(getCookie("thaiword"));
 }
 
 
 
 //saveword_button_en.addEventListener("click", saveword_en);
 function saveword_en() {
-  //alert(getCookie("thaiword"));
-  //setCookie("thaiword",title_word.innerHTML);
-  //alert(getCookie("thaiword"));
-  //alert(getCookie("engword"));
-
-  let engword = getCookie("engword");
-  if (engword != "") {
-
-    const array_engword = engword.split("|");
-
-    for(let word in array_engword){
-      if (array_engword[word] === title_word.innerHTML){
-        return;
-       }
-  } 
-
-      let tmpcookie = engword +"|"+title_word.innerHTML;
-      setCookie("engword",tmpcookie);
-    
+  let engword = localStorage.getItem("engword");
+  if (engword === null ) {//firstword
+    localStorage.setItem("engword", title_word.innerHTML);
+   
    
 
-  } else {//firstword
-   // let tmpcookie = title_word.innerHTML;
-   // thaiword = prompt("Please enter your name:", "");
-   // if (thaiword != "" && thaiword != null) {  setCookie("thaiword", thaiword); }
-  // alert("first="+getCookie("engword"));  
-   setCookie("engword", title_word.innerHTML);
+  } else {
+  const array_engword = engword.split("|");
+
+  for(let word in array_engword){
+    if (array_engword[word] === title_word.innerHTML){
+      return;
+     }
+} 
+
+    let tmpstorage = engword +"|"+title_word.innerHTML;
+    localStorage.setItem("engword", tmpstorage);
+  
+
   }
 
-  
-  //alert(getCookie("engword"));
 }
 
 
@@ -428,8 +384,8 @@ function showbookmark(e) {
 
 
 
-let thaiword = getCookie("thaiword");
-if (thaiword != "") {
+let thaiword =localStorage.getItem("thaiword");
+if (!(thaiword === null)) {
   bm_title_word_th.style.display = "block";
   line.style.display = "block";
   const array_thaiword = thaiword.split("|");
@@ -456,8 +412,8 @@ if (thaiword != "") {
 
 
 
-let engword = getCookie("engword");
-if (engword != ""){
+let engword = localStorage.getItem("engword");
+if (!(engword === null)){
   bm_title_word_en.style.display = "block";
   const array_engword = engword.split("|");
 array_engword.forEach((suggestions) => {

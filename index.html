@@ -18,65 +18,64 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> 
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   </head>
-  <body>
+  <nav  id="m_nav"  class="navbar fixed-top justify-content-between" >
+    <div class="container-fluid" >
+      
+      <a class="navbar-brand" id="nav_brand" href="index.html">
+       &nbsp; Kumsub.com</h1> 
+      </a>
+
+
+<div class="navbar-nav mx-auto"> 
+      <div class="search">
+        <form action="" class="input-wrap">
+          <img src="/resources/k_icon.png"  />
+          <input
+            type="text"
+            name=""
+            onkeyup="lancheck();"
+            id="inputSearch"
+            placeholder ="search" >
+          <button  id="search"><img src ="/resources/search.png" ></button>
+        </form>
+      </div>
+    </div>
+   
+    <div id="history_btn">
+      <button id="history"><img src ="/resources/history.png" ></button>
+    </div>
+  
+  
+<div id="lanselect">
+<!-- <div class="img1"><img src="/resources/translation.png" width="30" height="30" /></div> -->
+      <div class="select">
+        
+        <select id="list">  
+      <ul class="hide">
+        <option class="options" value="2"><a id="eflag">🇹🇭</a>&nbsp&nbsp<a>Thai</a></option>
+
+        <option class="options" value="1"><a id="eflag">🇬🇧</a>&nbsp&nbsp<a>English</a></p>
+        </li>
+        </option>
+        
+      </ul></select>
+      </div>
+    </div>
+
+ 
+  </div>
+
+  </nav>
+  
+  <body>  
+  
+    <div class="main" >
     <div id="bg">
       <video id="background-video" src="/resources/video.mp4" muted loop autoplay></video>
       <div class="fade-in" id="foreground"></div>
     </div>
-    
-<div class="nav_bar">
-    <nav  id="m_nav"  class="navbar fixed-top justify-content-between" >
-      <div class="container-fluid" >
-        
-        <a class="navbar-brand" id="nav_brand" href="index.html">
-         &nbsp; Kumsub.com</h1> 
-        </a>
 
-
-<div class="navbar-nav mx-auto"> 
-        <div class="search">
-          <form action="" class="input-wrap">
-            <img src="/resources/k_icon.png"  />
-            <input
-              type="text"
-              name=""
-              onkeyup="lancheck();"
-              id="inputSearch"
-              placeholder ="search" >
-            <button  id="search"><img src ="/resources/search.png" ></button>
-          </form>
-        </div>
-      </div>
-     
-      <div id="history_btn">
-        <button id="history"><img src ="/resources/history.png" ></button>
-      </div>
-    
-    
-<div id="lanselect">
-  <!-- <div class="img1"><img src="/resources/translation.png" width="30" height="30" /></div> -->
-        <div class="select">
-          
-          <select id="list">  
-        <ul class="hide">
-          <option class="options" value="2"><a id="eflag">🇹🇭</a>&nbsp&nbsp<a>Thai</a></option>
-
-          <option class="options" value="1"><a id="eflag">🇬🇧</a>&nbsp&nbsp<a>English</a></p>
-          </li>
-          </option>
-          
-        </ul></select>
-        </div>
-      </div>
-
-   
-    </div>
-
-    </nav></div>
-
- 
-    <div class="fade-in2">
-    <div class="main"> 
+    <div> 
     <section class="output" id="output_pad">
       <!-- when the data is fetched from the server -->
       <div class="spinnerLoading">
