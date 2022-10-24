@@ -319,7 +319,6 @@ overflow:hidden;
     }
   }
   #background-video {
-    padding-top: 5%;
     filter: blur(0.9px);
     transform: scale(1.1);
     width: 100vw;

@@ -328,19 +328,21 @@ class='audio' style='font-size:30px'; type="button" value="Play"><img src="/reso
 
 //saveword_button_th.addEventListener("click", saveword_th);
 function saveword_th() {
-  let thaiword = localStorage.getItem("thaiword");
+  let thaiword = JSON.parse(localStorage.getItem('thaiword'));
+  
   if (thaiword === null) {//firstword
-    localStorage.setItem("thaiword", title_word.innerHTML);
+    thaiword=[];
+    thaiword.push(title_word.innerHTML);
+    localStorage.setItem("thaiword", JSON.stringify(thaiword));
   } else {
-   const array_thaiword = thaiword.split("|");
-   for(var word in array_thaiword){
-     if (array_thaiword[word] === title_word.innerHTML){
+    if(thaiword.length > 24){thaiword.shift();}
+   for(var word in thaiword){
+     if (thaiword[word] === title_word.innerHTML){
        return;
       }
  } 
-     let tmpstorage = thaiword +"|"+title_word.innerHTML;
-     localStorage.setItem("thaiword", tmpstorage);
-
+    thaiword.push(title_word.innerHTML);
+     localStorage.setItem("thaiword", JSON.stringify(thaiword));
   }
 }
 
@@ -348,23 +350,22 @@ function saveword_th() {
 
 //saveword_button_en.addEventListener("click", saveword_en);
 function saveword_en() {
-  let engword = localStorage.getItem("engword");
+  let engword = JSON.parse(localStorage.getItem('engword'));
+ 
   if (engword === null ) {//firstword
-    localStorage.setItem("engword", title_word.innerHTML);
-   
-   
+     engword = [];
+     engword.push(title_word.innerHTML);
+    localStorage.setItem("engword", JSON.stringify(engword));
 
   } else {
-  const array_engword = engword.split("|");
-
-  for(let word in array_engword){
-    if (array_engword[word] === title_word.innerHTML){
+    if(engword.length > 24){engword.shift();}
+  for(let word in engword){
+    if (engword[word] === title_word.innerHTML){
       return;
      }
 } 
-
-    let tmpstorage = engword +"|"+title_word.innerHTML;
-    localStorage.setItem("engword", tmpstorage);
+    engword.push(title_word.innerHTML); 
+    localStorage.setItem("engword", JSON.stringify(engword));
   
 
   }
@@ -384,19 +385,18 @@ function showbookmark(e) {
 
 
 
-let thaiword =localStorage.getItem("thaiword");
+let thaiword = JSON.parse(localStorage.getItem('thaiword'));
+
 if (!(thaiword === null)) {
   bm_title_word_th.style.display = "block";
   line.style.display = "block";
-  const array_thaiword = thaiword.split("|");
-  array_thaiword.forEach((suggestions) => {
+  thaiword.forEach((words) => {
     let newSpan = document.createElement("button");
     newSpan.className = "display-bookmark";
-    newSpan.innerText = suggestions;
+    newSpan.innerText = words;
     newSpan.onclick = function() {
       clearoutput();
-      getData2(suggestions);}
-  
+      getData2(words);}
       bookmark_th.appendChild(newSpan);
   
   });
@@ -411,18 +411,17 @@ if (!(thaiword === null)) {
 
 
 
+let engword = JSON.parse(localStorage.getItem('engword'));
 
-let engword = localStorage.getItem("engword");
 if (!(engword === null)){
   bm_title_word_en.style.display = "block";
-  const array_engword = engword.split("|");
-array_engword.forEach((suggestions) => {
+  engword.forEach((words) => {
   let newSpan = document.createElement("button");
   newSpan.className = "display-bookmark";
-  newSpan.innerText = suggestions;
+  newSpan.innerText = words;
   newSpan.onclick = function() {
     clearoutput();
-    getData(suggestions);}
+    getData(words);}
 
     bookmark_en.appendChild(newSpan);
 
