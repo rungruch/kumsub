@@ -114,7 +114,7 @@
     border: 0;
     float:right;
     font-family: 'NotoColorEmoji','THSarabunNew-Bold';
-    padding: 10px 20px;
+    padding: 10px 30px;
     box-sizing: border-box;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 60px;
@@ -123,13 +123,27 @@
     justify-content: space-between;
     cursor: pointer;
     font-size: 20px;
-    margin-left: 5%;
     margin-right: 15%;
-
     appearance:none;
     -webkit-appearance: none;
 
   }
+
+  .select:after {
+    content:"";
+    position:absolute;
+    z-index:2;
+    right:30px;
+    top:49%;
+    margin-top:-3px;
+    height:0;
+    width:0;
+    border-top:6px solid #313131;
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    pointer-events:none;
+}
+
   .options{
     font-family: 'NotoColorEmoji','THSarabunNew-Bold';
     width: 100%;
@@ -138,12 +152,10 @@
     cursor: pointer;
     box-sizing: border-box;
     position: relative;
- 
   }
 
   .options:hover{
     background: rgba(255, 255, 255, 0.9);
-
   }
   .hide{
     visibility: hidden;
@@ -223,18 +235,16 @@ overflow:hidden;
     padding: 24px 20px;
     font-size: 30px;
     color: #959594;
-    
   }
   .input-wrap input{
     background: transparent;
     flex: 1;
     border: 0;
-    padding: 24px 20px;
-    font-size: 25px;
-    padding-top: 3%;
-    color: #2a2a2a;
-    
+    padding: 0px 20px;
+    font-size: 28px;
+    color: #2a2a2a;  
   }
+
   ::placeholder{
     color: #cac7ca;
   }
@@ -251,18 +261,17 @@ overflow:hidden;
   }
   input {
     border-radius: 13px;
-    padding: 10px;
-    font-size:1rem;
     min-width: 400px;
     font-weight: 500;
     outline: none;
     background-color: rgb(255, 255, 255);
     font-family: "Roboto Condensed", Arial, Helvetica, sans-serif;
+
   }
   input::placeholder {
     color: #512d41;
   }
-  
+
   section.output {
     max-width: 50%;
     height: 50%;

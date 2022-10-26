@@ -57,11 +57,8 @@ let list = document.getElementById("list");
 
 function getData2(wordTyped) {
   //to check the progress of data
-
-  showLoadingSpinner.style.display = "flex";
   outputSection.style.display = "block";
-
-
+  showLoadingSpinner.style.display = "flex";
       //alert("in");
    
       // alert(name+' '+year);
@@ -71,9 +68,12 @@ function getData2(wordTyped) {
        xhttp.onload = function(){
        let json = this.responseText;
        if(!Object.keys(json).length){
-        showLoadingSpinner.style.display = "none";
-        
-        outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong> <br> กรุณาพิมคำที่มีความหมาย`;
+        try {
+          showLoadingSpinner.style.display = "none";
+        }
+        finally {
+          outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong> <br> กรุณาพิมคำที่มีความหมาย`;
+        }
         return;
     }
        let ressuts = JSON.parse(json);
@@ -118,6 +118,7 @@ function getData2(wordTyped) {
         outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong>`;
         return;
      }
+    showLoadingSpinner.style.display = "none";
     foreground.style.display= "block";
      title_word.innerHTML= wordTyped;
      line.style.display = "block";
@@ -125,6 +126,7 @@ function getData2(wordTyped) {
      //saveword_button_th.style.display = "block";
      showimage2(wordTyped);
      saveword_th();
+        
 
           
         
@@ -236,11 +238,18 @@ function getData(wordTyped) {
     //check whether the prenounciation sound is present or not
     showimage(wordTyped);
     saveword_en();
-    const audio = parsedData[0].hwi.prs[0].sound.audio;
-    if (audio) {
-      giveSound(audio);
-     
+    try {
+      const audio = parsedData[0].hwi.prs[0].sound.audio;
+      if (audio) {
+        giveSound(audio);
+       
+      }
     }
+    catch(err) {
+      giveSound_en(wordTyped);
+    }
+
+  
     console.log(parsedData);
   };
   //send the request to the server
@@ -265,8 +274,8 @@ function showimage(wordTyped)
       alert("No image to show on display!!!");
     } else {
       let imageshow = iMage.results[0].urls.raw;
-      console.log(iMage.results[0]);
-      imageapi.innerHTML=`<br><br><img src="${imageshow}" class="outputimage" >`
+     // console.log(iMage.results[0]);
+     imageapi.innerHTML=`<br><br><img src="${imageshow}" class="outputimage" >`
     }
 
     
@@ -287,7 +296,7 @@ function showimage2(wordTyped)
     return resp.json()
    })
    .then(data => {
-    console.log(data.photos);
+  //  console.log(data.photos);
     getPhotos(data.photos);
    })
    
@@ -302,7 +311,7 @@ function playsound_eng() {
 
 
 //get the sound / prenounciation
-function giveSound(audio) {
+function giveSound(audio) {//primary api eng sound
   let subfolderOfWord = audio.charAt(0);
   let soundLocated = `https://media.merriam-webster.com/soundc11/${subfolderOfWord}/${audio}.wav?key=${ourAPIkey}`;
   let getAudio = document.createElement("audio");
@@ -318,12 +327,18 @@ class='audio' style='font-size:30px'; type="button" value="Play"><img src="/reso
 function giveSoundth(wordTyped) {
 
   outputaudio.style.display ="block";
-  
   outputaudio.innerHTML = `<button id="play_btn"  onclick="responsiveVoice.speak(' `+wordTyped+`', 'Thai Female');"
 class='audio' style='font-size:30px'; type="button" value="Play"><img src="/resources/volume.png"></img></button>`;
  
 }
 
+
+function giveSound_en(wordTyped) { //secondary api eng sound
+  outputaudio.style.display ="block";
+  outputaudio.innerHTML = `<button id="play_btn"  onclick="responsiveVoice.speak(' `+wordTyped+`', 'UK English Female');"
+class='audio' style='font-size:30px'; type="button" value="Play"><img src="/resources/volume.png"></img></button>`;
+ 
+}
 
 
 //saveword_button_th.addEventListener("click", saveword_th);
@@ -381,6 +396,7 @@ function showbookmark(e) {
   clearoutput();
   //showLoadingSpinner.style.display = "flex";
   outputSection.style.display = "block";
+  foreground.style.display= "block";
   title_word.innerHTML= "ประวัติการค้นหา";
 
 
