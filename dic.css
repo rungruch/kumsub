@@ -60,6 +60,10 @@
     background:rgb(59, 44, 24); 
   }
 
+  #rightnav{
+    display: flex;
+  }
+
   #output_pad{
     font-family: 'THSarabunNew';
     
@@ -126,23 +130,7 @@
     margin-right: 15%;
     appearance:none;
     -webkit-appearance: none;
-
   }
-
-  .select:after {
-    content:"";
-    position:absolute;
-    z-index:2;
-    right:30px;
-    top:49%;
-    margin-top:-3px;
-    height:0;
-    width:0;
-    border-top:6px solid #313131;
-    border-left:6px solid transparent;
-    border-right:6px solid transparent;
-    pointer-events:none;
-}
 
   .options{
     font-family: 'NotoColorEmoji','THSarabunNew-Bold';
@@ -276,7 +264,7 @@ overflow:hidden;
     max-width: 50%;
     height: 50%;
     margin: 0 auto;
-    margin-top: 120px;
+    margin-top: 60px;
     text-align: left;
     background: rgba(232, 232, 232, 0.98);
     border: none;
@@ -390,8 +378,9 @@ overflow:hidden;
 
 
   .display-suggestions{
+    border: 0;
     color: #fff;
-    background-color:#512d41;
+    background-color:rgb(85, 49, 7); 
     border-radius: .7rem;
     padding: 2px 10px;
     margin: 10px;
@@ -535,7 +524,6 @@ overflow:hidden;
     
   }
  #history {
-  
   border: 0;
   border-radius: 50%;
   cursor: pointer;
@@ -544,6 +532,7 @@ overflow:hidden;
   padding-right: 3px;
   }
   #history_btn{
+    padding-top: 4px;
     padding-right: 35px;
   }
 

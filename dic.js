@@ -186,8 +186,33 @@ function giveResultsOfWord(e) {
 
 }
 
-
-
+ function generateSuggestion_eng(word){
+  const xhr = new XMLHttpRequest();
+  xhr.open(
+    "GET",
+    `https://www.dictionaryapi.com/api/v3/references/learners/json/${word}?key=${ourAPIkey}`,
+    true
+  );
+  xhr.onload = function () {
+    const parsedData = JSON.parse(this.responseText);
+    if (!parsedData.length) {return;}
+    if (typeof parsedData[0] === "string") {return;}
+    try {
+      const tmp = ` <strong>Meaning of <span style="color:#0a6b65be;">${word}</span> : </strong> ${parsedData[0].shortdef[0]} <br><br> Pronunciation in Text : ${parsedData[0].hwi.prs[0].ipa} <br><br> Part Of Speech: ${parsedData[0].fl}`;
+    } catch (error) {
+      return;
+    }
+      let newSpan = document.createElement("span");
+      newSpan.className = "display-suggestions";
+      newSpan.innerText = word;
+      newSpan.onclick = function() {
+        clearoutput();
+        getData(word);}
+      noResultFound.appendChild(newSpan);
+    
+  };
+  xhr.send();
+}
 
 function getData(wordTyped) {
   //to check the progress of data
@@ -213,14 +238,12 @@ function getData(wordTyped) {
       showLoadingSpinner.style.display = "none";
       let notFound = document.createElement("h4");
       notFound.className = "notFoundMessage";
-      notFound.innerHTML = `Sorry,There is No Match Found Similar to <span style="color:#0a6b65be;">${wordTyped}</span>.<br>I Have Found Some Results Similar To The Word You Typed.Please Have a Look !`;
+      notFound.innerHTML = `Sorry,There is No Match Found Similar to <span style="color:#0a6b65be;">${wordTyped}</span>.<br>I Have Found Some Results Similar To The Word You Typed.`;
       noResultFound.appendChild(notFound);
       parsedData.forEach((suggestions) => {
-        let newSpan = document.createElement("span");
-        newSpan.className = "display-suggestions";
-        newSpan.innerText = suggestions;
-        noResultFound.appendChild(newSpan);
+        generateSuggestion_eng(suggestions);
       });
+   
       return;
     }
     showLoadingSpinner.style.display = "none";
@@ -250,7 +273,7 @@ function getData(wordTyped) {
     }
 
   
-    console.log(parsedData);
+
   };
   //send the request to the server
   xhr.send();
@@ -350,7 +373,7 @@ function saveword_th() {
     thaiword.push(title_word.innerHTML);
     localStorage.setItem("thaiword", JSON.stringify(thaiword));
   } else {
-    if(thaiword.length > 24){thaiword.shift();}
+    if(thaiword.length > 19){thaiword.shift();}
    for(var word in thaiword){
      if (thaiword[word] === title_word.innerHTML){
        return;
@@ -373,7 +396,7 @@ function saveword_en() {
     localStorage.setItem("engword", JSON.stringify(engword));
 
   } else {
-    if(engword.length > 24){engword.shift();}
+    if(engword.length > 19){engword.shift();}
   for(let word in engword){
     if (engword[word] === title_word.innerHTML){
       return;
