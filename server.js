@@ -22,17 +22,30 @@ app.use('/resources', express.static(__dirname + '/resources'));
 
 app.get('/getlongdo/:id', function (req, res) {
     var id = req.params.id;
-   console.log(id);
-    longdo.search(id).then((result) => {
-      console.log(result);
-      //console.log(result["พจนานุกรม ฉบับราชบัณฑิตยสถาน พ.ศ. ๒๕๕๔"][0][1]);
-      var testres=result["พจนานุกรม ฉบับราชบัณฑิตยสถาน พ.ศ. ๒๕๕๔"];
-      console.log(testres);
-      res.json(testres);
-  });
+    // console.log(id);
+      longdo.search(id).then((result) => {
+        var testres=result["พจนานุกรม ฉบับราชบัณฑิตยสถาน พ.ศ. ๒๕๕๔"];
+     //console.log(result); 
+     //console.log(testres);
+     res.json(testres);
+    }).catch(error => { 
+      console.log(`The unknown error has occurred: ${error}`);
+      res.json(null);
+    });
 })
 
-
+app.get('/getsimilar/:id',function(req,res)
+{
+    var id= req.params.id;
+    longdo.search(id).then((result)=>{
+      var similarword= result["NECTEC Lexitron-2 Dictionary (TH-EN)"];
+     // console.log(similarword); 
+     res.json(similarword);
+    }).catch(error => { 
+      console.log(`The unknown error has occurred: ${error}`);
+      res.json(null);
+    });
+})
 
   const server = http.createServer((req, res) => {
     const handler = (req, res) => {

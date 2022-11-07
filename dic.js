@@ -34,6 +34,8 @@ let bookmark_title = document.getElementById("bookmark_title");
 let bm_title_word_th = document.getElementById("bm_title_word_th");
 let bm_title_word_en = document.getElementById("bm_title_word_en");
 let list = document.getElementById("list");
+var thaisimilar=[];
+
 // resultBtn2.addEventListener("click", giveResultsOfWord2);
 // function giveResultsOfWord2(e) {
 //   //after searching for once it shows the previous searched values so first clear them everytime
@@ -72,17 +74,22 @@ function getData2(wordTyped) {
           showLoadingSpinner.style.display = "none";
         }
         finally {
-          outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong> <br> กรุณาพิมคำที่มีความหมาย`;
+          outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong> <br>`;
+          findsimilarthai(wordTyped);
         }
         return;
     }
        let ressuts = JSON.parse(json);
-       
-       let count = 0 ;
+       if(ressuts == null){
+        try {
+          showLoadingSpinner.style.display = "none";
+        }
+        finally {
+          outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์ กรุณาพิมคำที่มีความหมาย</strong> <br>`;
+        }
+        return;}
+       let count = ressuts.length;
        let outbool = 0;
-       while (ressuts[count]) {
-           count++;
-       }
        //หาคำที่มี1ความหมาย
        for(let c = 0;c<count;c++){
         let tmp = ressuts[c][0];
@@ -95,18 +102,18 @@ function getData2(wordTyped) {
           outbool++;
         }
        }
-      //หาคำที่มีมากกว่า 1 ความหมาย
+      //หาคำที่มีมากกว่า 1 ความหมาย/คำติดอัคระอักษรพิเศษ
       if (outbool == 0){
         for(let c = 0;c<count;c++){
           let tmp = ressuts[c][0];
-          tmp = tmp.slice(0, -2);
-          // console.log(tmp);   //console.log(tmp.includes(wordTyped));   // console.log(ressuts[c]);   //console.log(tmp === (wordTyped));
-          if(tmp === (wordTyped)){
-            showLoadingSpinner.style.display = "none";
-        //    console.log(ressuts[c]);
-            let tmp2 = outputData.innerHTML;
-            outputData.innerHTML = tmp2+'<br>'+ressuts[c];
-            outbool++;
+          tmp = tmp.replace(/[-a-zA-Z1-9๑-๙]/gmu,"");
+          tmp = tmp.trim();
+            if(tmp === (wordTyped)){
+             showLoadingSpinner.style.display = "none";
+         //    console.log(ressuts[c]);
+             let tmp2 = outputData.innerHTML;
+             outputData.innerHTML = tmp2+'<br>'+ressuts[c];
+             outbool++;
           }
          }
 
@@ -115,7 +122,14 @@ function getData2(wordTyped) {
        if (outbool == 0){
         //หาคำไกล้เคียง case (sprint อื่น)
         showLoadingSpinner.style.display = "none";
-        outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong>`;
+        outputData.innerHTML = `&rarr; <strong>ไม่พบผลลัพธ์</strong><br>`;
+        for(let c = 0;c<count;c++){
+          let tmp = ressuts[c][0];
+          tmp = tmp.replace(/[-a-zA-Z1-9๑-๙]/gmu,"");
+          tmp = tmp.trim();
+          thaisimilar.push(tmp);
+          }
+        findsimilarthai(wordTyped);
         return;
      }
     showLoadingSpinner.style.display = "none";
@@ -140,6 +154,97 @@ function getData2(wordTyped) {
 
 }
 
+function generateSuggestion_thai(word){
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function(){
+  let json = this.responseText;
+  if(!Object.keys(json).length){return;}
+  let ressuts = JSON.parse(json);
+  let count = 0 ;
+  let outbool = 0;
+  while (ressuts[count]) {
+      count++;
+  }
+  for(let c = 0;c<count;c++){
+   let tmp = ressuts[c][0];
+   tmp = tmp.replace(/[-a-zA-Z1-9๑-๙]/gmu,"");
+   tmp = tmp.trim();
+   if(tmp === (word)){
+     outbool++;
+   }
+  }
+  if (outbool == 0){return;}else{
+    let newSpan=document.createElement("span");
+    newSpan.className = "display-suggestions";
+    newSpan.innerText = word;
+    newSpan.onclick = function() {
+    clearoutput();
+    getData2(word);}
+    noResultFound.appendChild(newSpan);
+  }   
+}
+  xhttp.open("GET","/getlongdo/"+word);
+  xhttp.send()
+}
+
+function findsimilarthai (word,ressuts)
+{
+
+  let worddummy="";
+  if (word.length==0)
+  {
+    return;
+  }
+  if (word.length>=2)
+  {
+    worddummy+=word.charAt(0)+word.charAt(1);
+  }
+  else if (word.length==1)
+  {
+    worddummy=word;
+  }
+
+  const xhttp= new XMLHttpRequest();
+    xhttp.onload=function()
+    {
+      let similarword=this.responseText;
+      if(!Object.keys(similarword).length){return;}
+      similarword= JSON.parse(similarword);
+      var listsimilar= [];
+      var n=similarword.length;
+      if (n==0)return;
+      outer:for (let i=0;i<n;i++)
+      {
+        for (let j=0;j<listsimilar.length;j++)
+        {
+          if(similarword[i][0]==listsimilar[j])
+          {
+            continue outer;
+          }
+        }
+        listsimilar.push(similarword[i][0]);
+      }
+      if(Array.isArray(thaisimilar) && thaisimilar.length){
+        for(let c=0;c<thaisimilar.length;c++){
+          listsimilar.push(thaisimilar[c]);
+        }
+      }
+      let newlistsimilar = [...new Set(listsimilar)];
+
+      outputData.innerHTML += `<span>เราพบคำที่คล้ายกับที่คุณค้นหา</span>`;
+      for (let i=0;i<newlistsimilar.length;i++)
+      {
+        generateSuggestion_thai(newlistsimilar[i]);
+      }
+      return ;
+
+    }
+  
+    xhttp.open("GET","/getsimilar/"+worddummy);
+    xhttp.send()
+
+}
+
 function clearoutput() {
   outputData.innerText = "";
   noResultFound.innerText = "";
@@ -158,7 +263,7 @@ function clearoutput() {
 //event listeners after clicking on resultBtn
 resultBtn.addEventListener("click", giveResultsOfWord);
 function giveResultsOfWord(e) {
-  
+  thaisimilar = [];
   //after searching for once it shows the previous searched values so first clear them everytime
   var list= document.getElementById("list").value;
   clearoutput();
@@ -477,4 +582,5 @@ function lancheck(){
   }else{list.value='2';}
   
 }
+
 
