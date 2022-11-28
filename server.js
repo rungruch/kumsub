@@ -61,36 +61,6 @@ app.get('/getsimilar/:id',function(req,res)
   })
 
 
-  app.get("/video", async (req, res) => {
-
-    try {
-        // Create the BlobServiceClient object which will be used to create a container client
-        const blobServiceClient = BlobServiceClient.fromConnectionString(
-            AZURE_STORAGE_CONNECTION_STRING
-        );
-
-        const containerName = 'videos';
-        const blobName = req.query.path;
-
-        // Get a reference to a container
-        const containerClient = blobServiceClient.getContainerClient(containerName);
-
-        // Get a block blob client
-        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-
-        console.log('\nDownloaded blob content...');
-
-        const downloadBlockBlobResponse = await blockBlobClient.download(0);
-
-        downloadBlockBlobResponse.readableStreamBody.pipe(res);
-    } catch (err) {
-        console.error(err);
-        res.sendStatus(500);
-    }
-
-});
-
-
   app.listen(PORT, ()=>{
     console.log(`Serer is running. ${PORT}`)
   })
