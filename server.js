@@ -6,6 +6,7 @@ const longdo = require('longdo-api')
 
 
 const app = express()
+const PORT = process.env.PORT || 4046
 
 app.use('/', express.static(__dirname + '/'));
 app.get('/', function (req, res) {
@@ -60,4 +61,6 @@ app.get('/getsimilar/:id',function(req,res)
   })
 
 
-app.listen(4046)
+  app.listen(PORT, ()=>{
+    console.log(`Serer is running. ${PORT}`)
+  })
