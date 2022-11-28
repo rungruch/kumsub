@@ -18,6 +18,7 @@ let outputSection = document.querySelector(".output");
 
 let imageapi= document.getElementById("showpicture");
 
+
 //our input tag
 //let inputData2 = document.getElementById("inputSearch2");
 // button which gives results on clicking
@@ -35,6 +36,12 @@ let bm_title_word_th = document.getElementById("bm_title_word_th");
 let bm_title_word_en = document.getElementById("bm_title_word_en");
 let list = document.getElementById("list");
 var thaisimilar=[];
+
+let favorite = document.getElementById("outputstar"); //ดาวคำ
+let wordMarked_th = document.getElementById("wordMarked_th");
+let wordMarked_en = document.getElementById("wordMarked_en");
+let favorite_title_word_th = document.getElementById("favorite_title_word_th");
+let favorite_title_word_en = document.getElementById("favorite_title_word_en");
 
 // resultBtn2.addEventListener("click", giveResultsOfWord2);
 // function giveResultsOfWord2(e) {
@@ -137,6 +144,9 @@ function getData2(wordTyped) {
      title_word.innerHTML= wordTyped;
      line.style.display = "block";
      giveSoundth(wordTyped);
+
+     favoriteWord_th(wordTyped); //บันทึกคำที่สนใจ
+
      //saveword_button_th.style.display = "block";
      showimage2(wordTyped);
      saveword_th();
@@ -252,12 +262,18 @@ function clearoutput() {
   title_word.innerHTML= "";
   imageapi.innerHTML="";
  outputaudio.style.display ="none";
+ favorite.style.display = "none";
  saveword_button_th.style.display = "none";
  saveword_button_en.style.display = "none";
  bookmark_th.innerText="";
  bookmark_en.innerText="";
  bm_title_word_th.style.display = "none";
  bm_title_word_en.style.display = "none";
+
+ wordMarked_th.innerHTML="";
+ wordMarked_en.innerHTML="";
+ favorite_title_word_th.style.display = "none";
+ favorite_title_word_en.style.display = "none";
 }
 
 //event listeners after clicking on resultBtn
@@ -375,8 +391,9 @@ function getData(wordTyped) {
     }
     catch(err) {
       giveSound_en(wordTyped);
+      
     }
-
+    favoriteWord_en(wordTyped);
   
 
   };
@@ -468,6 +485,119 @@ class='audio' style='font-size:30px'; type="button" value="Play"><img src="/reso
  
 }
 
+function favoriteWord_th(wordTyped){
+  favorite.style.display = "block";
+  let favWord_th = JSON.parse(localStorage.getItem('favWord_th')); //เช็คว่าคำที่หาบันทึกยัง
+  
+  favorite.innerHTML = `<button id="favorite_btn2"  onclick="makeFav_th('`+wordTyped+`'); "
+  class='favbutton' style='font-size:30px;border:none'; type="button" value="fav"><img src="/resources/starblack.png" width="50" height="50"
+  id="favorite_img"></img></button>`;
+  for(var word in favWord_th){
+    if (favWord_th[word] === wordTyped){
+      favorite.innerHTML = `<button id="favorite_btn2"  onclick="makeFav_th('`+wordTyped+`');"
+  class='favbutton' style='font-size:30px;border:none'; type="button" value="fav"><img src="/resources/star.png" width="50" height="50"
+  id="favorite_img"></img></button>`;
+     }
+  } 
+}
+
+function favoriteWord_en(wordTyped){
+  favorite.style.display = "block";
+  let favWord_en = JSON.parse(localStorage.getItem('favWord_en')); //เช็คว่าคำที่หาบันทึกยัง
+
+  favorite.innerHTML = `<button id="favorite_btn3"  onclick="makeFav_en('`+wordTyped+`');"
+  class='favbutton' style='font-size:30px;border:none'; type="button" value="fav"><img src="/resources/starblack.png" width="50" height="50"
+  id="favorite_img"></img></button>`;
+  for(var word in favWord_en){
+    if (favWord_en[word] === wordTyped){
+      favorite.innerHTML = `<button id="favorite_btn3"  onclick="makeFav_en('`+wordTyped+`');"
+  class='favbutton' style='font-size:30px;border:none;'; type="button" value="fav";><img src="/resources/star.png" width="50" height="50"
+  id="favorite_img"></img></button>`;
+  
+     }
+  } 
+  
+}
+
+
+
+
+function makeFav_th(wordTyped){
+  let favWord_th = JSON.parse(localStorage.getItem('favWord_th'));
+  let checkWord = 0;
+
+
+  //เช็คคำ
+  
+
+  if (favWord_th === null) {//firstword
+    favWord_th=[];
+    favWord_th.push(wordTyped);
+    localStorage.setItem("favWord_th", JSON.stringify(favWord_th));
+  } else {
+    if(favWord_th.length > 10){favWord_th.shift();}
+   for(var word in favWord_th){
+     if (favWord_th[word] === wordTyped){
+       checkWord = 1;
+      }
+ }
+    if(checkWord == 0){
+      favWord_th.push(wordTyped);
+      localStorage.setItem("favWord_th", JSON.stringify(favWord_th));
+    }
+    
+  }
+  
+  //เช็คปุ่ม
+  if( document.getElementById("favorite_img").src.match(/starblack\.png$/)){
+    document.getElementById("favorite_img").src = "/resources/star.png";
+  }else{
+    document.getElementById("favorite_img").src = "/resources/starblack.png";
+    let index = favWord_th.indexOf(wordTyped);
+    favWord_th.splice(index, 1);
+    localStorage.setItem("favWord_th", JSON.stringify(favWord_th));
+  }
+
+}
+
+function makeFav_en(wordTyped){
+  let favWord_en = JSON.parse(localStorage.getItem('favWord_en'));
+  let checkWord = 0;
+
+  
+  //เช็คคำ
+
+
+  if (favWord_en === null) {//firstword
+    favWord_en=[];
+    favWord_en.push(wordTyped);
+    localStorage.setItem("favWord_en", JSON.stringify(favWord_en));
+  } else {
+    if(favWord_en.length > 10){favWord_en.shift();}
+   for(var word in favWord_en){
+     if (favWord_en[word] === wordTyped){
+       checkWord = 1;
+      }
+ }  
+    if(checkWord == 0){
+      favWord_en.push(wordTyped);
+      localStorage.setItem("favWord_en", JSON.stringify(favWord_en));
+    }
+ 
+  }
+
+  //เช็คปุ่ม
+  if( document.getElementById("favorite_img").src.match(/starblack\.png$/)){
+    document.getElementById("favorite_img").src = "/resources/star.png";
+  }else{
+    document.getElementById("favorite_img").src = "/resources/starblack.png";
+    let index = favWord_en.indexOf(wordTyped);
+    favWord_en.splice(index, 1);
+    localStorage.setItem("favWord_en", JSON.stringify(favWord_en));
+  }
+
+}
+
 
 //saveword_button_th.addEventListener("click", saveword_th);
 function saveword_th() {
@@ -514,8 +644,6 @@ function saveword_en() {
   }
 
 }
-
-
 
 
 let history = document.getElementById("history");
@@ -573,6 +701,62 @@ if (!(engword === null)){
 }
 
 }
+
+
+//กดปุ่มโชว์คำที่บันทึก
+let showfavorite = document.getElementById("favorite");
+showfavorite.addEventListener("click", showfavWord); 
+function showfavWord(e) {
+  clearoutput();
+  outputSection.style.display = "block";
+  foreground.style.display= "block";
+  outputSection.style.display = "block";
+  foreground.style.display= "block";
+  title_word.innerHTML= "คำที่สนใจ";
+
+
+  // คำภาษาไทย
+  let favWord_th = JSON.parse(localStorage.getItem('favWord_th'));
+
+  if (!(favWord_th === null)) {
+  favorite_title_word_th.style.display = "block";
+  line.style.display = "block";
+  favWord_th.forEach((words) => {
+    let newSpan = document.createElement("button");
+    newSpan.className = "display-wordMarked";
+    newSpan.innerText = words;
+    newSpan.onclick = function() {
+      clearoutput();
+      getData2(words);}
+      wordMarked_th.appendChild(newSpan);
+  
+  });
+
+  }
+
+  // คำภาษาอังกฤษ
+  let favWord_en = JSON.parse(localStorage.getItem('favWord_en'));
+
+  if (!(favWord_en === null)){
+  favorite_title_word_en.style.display = "block";
+  line.style.display = "block";
+  favWord_en.forEach((words) => {
+  let newSpan = document.createElement("button");
+  newSpan.className = "display-wordMarked";
+  newSpan.innerText = words;
+  newSpan.onclick = function() {
+    clearoutput();
+    getData(words);}
+
+    wordMarked_en.appendChild(newSpan);
+
+  });
+  }
+}
+
+
+
+
 
 var english = /^[a-z][a-z]*$/i;
 function lancheck(){

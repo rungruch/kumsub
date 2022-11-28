@@ -30,11 +30,12 @@
       <div class="search">
         <form action="" class="input-wrap">
           <img src="/resources/k_icon.png"  />
-         <!--onkeyup="lancheck();"-->
+         
           <input
             type="text"
             name=""
             id="inputSearch"
+            onkeyup="lancheck();"
             placeholder ="search" >
           <button  id="search"><img src ="/resources/search.png" ></button>
         </form>
@@ -43,6 +44,10 @@
    
 
     <div id="rightnav"> 
+
+      <div id="favorite_btn">
+        <button id="favorite"><img src ="/resources/star.png"></button>
+      </div>
 
       <div id="history_btn">
         <button id="history"><img src ="/resources/history.png" ></button>
@@ -101,6 +106,11 @@
        
         </div>
         
+        <p  id="outputstar"></p>
+        <div id="star">
+       
+        </div>
+
         <button id="saveword_button_th">save</button>
         <button id="saveword_button_en">save</button>
       </div>
@@ -115,6 +125,7 @@
     
       <!-- when someone enters meaningless word this helps to give some suggestions -->
       <div class="no-result" id="no-result"></div>
+
       <div> 
         <p class="outputPara" id="bm_title_word_th">คำภาษาไทย</p>
           <div class="bookmark-result" id="bookmark_th">
@@ -126,6 +137,20 @@
        <div class="bookmark-result" id="bookmark_en">
        </div>
     </div>
+
+    <!-- คำที่สนใจ -->
+    <div> 
+      <p class="outputPara" id="favorite_title_word_th">คำภาษาไทย</p>
+        <div class="wordMarked-result" id="wordMarked_th">
+      </div>
+    </div>
+
+    <div>
+      <p class="outputPara" id="favorite_title_word_en">คำภาษาอังกฤษ</p>
+     <div class="wordMarked-result" id="wordMarked_en">
+     </div>
+  </div>
+
     </section>
 
   </div>
